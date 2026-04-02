@@ -1,7 +1,7 @@
 buildscript {
-  ext.RnSharedPrefs = [
+  ext.RNSharedPrefs = [
     kotlinVersion: "2.0.21",
-    minSdkVersion: 24,
+    minSdkVersion: 28,
     compileSdkVersion: 36,
     targetSdkVersion: 36
   ]
@@ -33,7 +33,7 @@ apply plugin: "kotlin-android"
 apply plugin: "com.facebook.react"
 
 android {
-  namespace "com.luas.rnsharedprefs"
+  namespace "space.luas.rnsharedprefs"
 
   compileSdkVersion getExtOrDefault("compileSdkVersion")
 
@@ -57,8 +57,8 @@ android {
   }
 
   compileOptions {
-    sourceCompatibility JavaVersion.VERSION_1_8
-    targetCompatibility JavaVersion.VERSION_1_8
+    sourceCompatibility JavaVersion.VERSION_11
+    targetCompatibility JavaVersion.VERSION_11
   }
 }
 

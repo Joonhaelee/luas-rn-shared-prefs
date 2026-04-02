@@ -114,7 +114,7 @@
     "type": "modules",
     "jsSrcsDir": "src",
     "android": {
-      "javaPackageName": "com.luas.rnsharedprefs"
+      "javaPackageName": "space.luas.rnsharedprefs"
     }
   },
   "prettier": {
