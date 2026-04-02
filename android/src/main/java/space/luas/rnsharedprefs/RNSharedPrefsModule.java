@@ -1,9 +1,15 @@
 package space.luas.rnsharedprefs;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
+import android.os.Bundle;
+import android.widget.RemoteViews;
+
 import androidx.annotation.NonNull;
 
 import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableArray;
@@ -104,5 +110,34 @@ public class RNSharedPrefsModule extends NativeRNSharedPrefsSpec {
       array.pushMap(map);
     }
     return array;
+  }
+
+  @ReactMethod
+  public void isWidgetPlaced(String pkg, String widgetCls, Promise promise) {
+    AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+    ComponentName componentName = new ComponentName(pkg, widgetCls);
+    int[] ids = appWidgetManager.getAppWidgetIds(componentName);
+    promise.resolve(ids.length != 0);
+  }
+
+  @ReactMethod
+  public void pinWidget(String pkg, String widgetCls, @Nullable String widgetLayoutResouceName, Promise promise) {
+    AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+    try {
+      ComponentName widgetComponentName = new ComponentName(pkg, widgetCls);
+      if (!appWidgetManager.isRequestPinAppWidgetSupported()) {
+        promise.reject("ERROR", "Widget not support request pining");
+      } else {
+        Bundle b = new Bundle();
+        String layoutName = widgetLayoutResouceName == null ? "widget": widgetLayoutResouceName;
+        int widgetLayoutResourceId = context.getResources().getIdentifier(layoutName, "layout", pkg);
+        RemoteViews views = new RemoteViews(pkg, widgetLayoutResourceId);
+        b.putParcelable(AppWidgetManager.EXTRA_APPWIDGET_PREVIEW, views);
+        appWidgetManager.requestPinAppWidget(widgetComponentName, b, null);
+        promise.resolve(true);
+      }
+    }catch (Exception e) {
+      promise.reject("ERROR", e.getMessage());
+    }
   }
 }

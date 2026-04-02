@@ -8,6 +8,13 @@ export interface Spec extends TurboModule {
   getKeys(): Array<string>;
   getItems(): Array<{ key: string; value: string }>;
   clear(): void;
+
+  isWidgetPlaced(pkg: string, widgetCls: string): Promise<boolean>;
+  pinWidget(
+    pkg: string,
+    widgetCls: string,
+    widgetLayoutResouceName?: string
+  ): Promise<boolean>;
 }
 
 export default TurboModuleRegistry.getEnforcing<Spec>('NativeRNSharedPrefs');
