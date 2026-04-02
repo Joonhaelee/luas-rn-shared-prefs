@@ -27,3 +27,15 @@ export function getItems() {
 export function clear() {
   return NativeRNSharedPrefs.clear();
 }
+
+export async function isWidgetPlaced(pkg: string, widgetCls: string) {
+  return NativeRNSharedPrefs.isWidgetPlaced(pkg, widgetCls);
+}
+
+export async function pinWidget(
+  pkg: string,
+  widgetCls: string,
+  widgetLayoutResouceName?: string
+) {
+  return NativeRNSharedPrefs.pinWidget(pkg, widgetCls, widgetLayoutResouceName);
+}
